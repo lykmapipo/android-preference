@@ -2,6 +2,8 @@ package com.github.lykmapipo.preference;
 
 import android.content.Context;
 
+import com.google.gson.annotations.Expose;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -157,8 +159,57 @@ public class PreferencesTest {
 
     }
 
+    @Test
+    public void testShouldBeAbleToSetGeneric() {
+
+        String key = "ANY_ACCOUNT";
+        Account value = new Account("Any", "Any");
+
+        Boolean isSet = Preferences.set(key, value);
+        Account setValue = Preferences.get(key, Account.class);
+
+        assertTrue("Generic should be set", isSet);
+        assertTrue("Generic should be same value", setValue.equals(value));
+
+    }
+
     @After
     public void cleanup() {
         Preferences.clear();
+    }
+
+    public static class Account {
+        @Expose
+        public String name;
+        @Expose
+        public String interest;
+
+        public Account(String name, String interest) {
+            this.name = name;
+            this.interest = interest;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Account account = (Account) o;
+
+            if (name != null ? !name.equals(account.name) : account.name != null) return false;
+            return interest != null ? interest.equals(account.interest) : account.interest == null;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = name != null ? name.hashCode() : 0;
+            result = 31 * result + (interest != null ? interest.hashCode() : 0);
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 }
