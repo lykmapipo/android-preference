@@ -263,12 +263,27 @@ public class Preferences {
     }
 
     /**
-     * Helper method to clear {@link SharedPreferences}.
+     * Helper method to clear all {@link SharedPreferences}.
      */
     public static synchronized Boolean clear() {
         try {
             SharedPreferences.Editor editor = preferences.edit();
             return editor.clear().commit();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Helper method to remove {@link SharedPreferences}.
+     */
+    public static synchronized Boolean remove(String... keys) {
+        try {
+            SharedPreferences.Editor editor = preferences.edit();
+            for (String key : keys) {
+                editor.remove(key);
+            }
+            return editor.commit();
         } catch (Exception e) {
             return false;
         }
