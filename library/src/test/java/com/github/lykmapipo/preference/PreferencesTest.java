@@ -11,6 +11,7 @@ import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowApplication;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import static junit.framework.Assert.assertFalse;
@@ -139,6 +140,20 @@ public class PreferencesTest {
 
         assertTrue("String should be set", isSet);
         assertTrue("String should exist", contains);
+
+    }
+
+    @Test
+    public void testShouldBeAbleToGetAll() {
+
+        String key = "ANY_STRING";
+        String value = "Any";
+
+        Preferences.set(key, value);
+
+        Map<String, ?> all = Preferences.getAll();
+
+        assertTrue("Preferences should exist", !all.isEmpty());
 
     }
 

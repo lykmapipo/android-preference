@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -253,6 +254,18 @@ public class Preferences {
             return contains;
         } else {
             return false;
+        }
+    }
+
+    /**
+     * Helper method to get all {@link SharedPreferences}.
+     */
+    public static synchronized Map<String, ?> getAll() {
+        if (preferences != null) {
+            Map<String, ?> all = preferences.getAll();
+            return all;
+        } else {
+            return null;
         }
     }
 
