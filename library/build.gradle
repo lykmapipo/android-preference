@@ -6,8 +6,6 @@ group = 'com.github.lykmapipo'
 android {
     compileSdkVersion 27
 
-    buildToolsVersion "27.0.3"
-
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 27
@@ -16,7 +14,6 @@ android {
         consumerProguardFiles 'proguard-rules.pro'
     }
 }
-
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
