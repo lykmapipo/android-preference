@@ -9,15 +9,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
-import org.robolectric.shadows.ShadowApplication;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import androidx.test.core.app.ApplicationProvider;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Preferences Tests
@@ -25,13 +25,12 @@ import static junit.framework.Assert.assertTrue;
  * @author lally elias
  */
 
-@Config(sdk = 23)
 @RunWith(RobolectricTestRunner.class)
 public class PreferencesTest {
 
     @Before
     public void setup() {
-        Context context = ShadowApplication.getInstance().getApplicationContext();
+        Context context = ApplicationProvider.getApplicationContext();
         Preferences.initialize(context);
     }
 

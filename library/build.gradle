@@ -13,6 +13,12 @@ android {
         versionName "0.2.0"
         consumerProguardFiles 'proguard-rules.pro'
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -22,6 +28,7 @@ dependencies {
 
     //test dependencies
     testImplementation "junit:junit:${JUNIT_VERSION}"
+    testImplementation "androidx.test:core:${ANDROIDX_TEST_CORE}"
     testImplementation "org.mockito:mockito-core:${MOCKITO_VERSION}"
     testImplementation "org.robolectric:robolectric:${ROBOLECTRIC_VERSION}"
 }
