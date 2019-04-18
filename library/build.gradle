@@ -17,8 +17,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "com.android.support:support-annotations:${ANDROID_ANNOTATION_VERSION}"
-    api "com.google.code.gson:gson:${GSON_VERSION}"
+    implementation "androidx.annotation:annotation:${ANDROIDX_ANNOTATION_VERSION}"
+    implementation "com.google.code.gson:gson:${GSON_VERSION}"
 
     //test dependencies
     testImplementation "junit:junit:${JUNIT_VERSION}"

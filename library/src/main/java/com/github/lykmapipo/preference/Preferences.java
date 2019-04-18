@@ -3,7 +3,6 @@ package com.github.lykmapipo.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,6 +12,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Preferences
@@ -49,7 +51,8 @@ public class Preferences {
      * @param key
      * @return The value from shared preferences, or null if the value could not be read.
      */
-    public static synchronized String get(@NonNull String key, String defaultValue) {
+    @NonNull
+    public static synchronized String get(@NonNull String key, @Nullable String defaultValue) {
         try {
             String value = defaultValue;
             value = preferences.getString(key, defaultValue);
@@ -66,7 +69,8 @@ public class Preferences {
      * @param value
      * @return true if the new value was successfully written to persistent storage.
      */
-    public static synchronized Boolean set(@NonNull String key, String value) {
+    @NonNull
+    public static synchronized Boolean set(@NonNull String key, @NonNull String value) {
         try {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString(key, value);
@@ -82,7 +86,8 @@ public class Preferences {
      * @param key
      * @return The value from shared preferences, or null if the value could not be read.
      */
-    public static synchronized Set<String> get(@NonNull String key, Set<String> defaultValue) {
+    @NonNull
+    public static synchronized Set<String> get(@NonNull String key, @Nullable Set<String> defaultValue) {
         try {
             Set<String> value = defaultValue;
             value = preferences.getStringSet(key, defaultValue);
@@ -99,7 +104,8 @@ public class Preferences {
      * @param value
      * @return true if the new value was successfully written to persistent storage.
      */
-    public static synchronized Boolean set(@NonNull String key, Set<String> value) {
+    @NonNull
+    public static synchronized Boolean set(@NonNull String key, @NonNull Set<String> value) {
         try {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putStringSet(key, value);
@@ -116,7 +122,8 @@ public class Preferences {
      * @param values
      * @return true if the new value was successfully written to persistent storage.
      */
-    public static synchronized Boolean set(@NonNull String key, String... values) {
+    @NonNull
+    public static synchronized Boolean set(@NonNull String key, @NonNull String... values) {
         try {
             HashSet<String> _set = new HashSet<String>();
             _set.addAll(Arrays.asList(values));
@@ -133,7 +140,8 @@ public class Preferences {
      * @param defaultValue A default to return if the value could not be read.
      * @return The value from shared preferences, or the provided default.
      */
-    public static synchronized Float get(@NonNull String key, Float defaultValue) {
+    @NonNull
+    public static synchronized Float get(@NonNull String key, @Nullable Float defaultValue) {
         try {
             float value = defaultValue;
             value = preferences.getFloat(key, defaultValue);
@@ -150,7 +158,8 @@ public class Preferences {
      * @param value
      * @return true if the new value was successfully written to persistent storage.
      */
-    public static synchronized Boolean set(@NonNull String key, Float value) {
+    @NonNull
+    public static synchronized Boolean set(@NonNull String key, @NonNull Float value) {
         try {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putFloat(key, value);
@@ -167,7 +176,8 @@ public class Preferences {
      * @param defaultValue A default to return if the value could not be read.
      * @return The value from shared preferences, or the provided default.
      */
-    public static synchronized Long get(@NonNull String key, Long defaultValue) {
+    @NonNull
+    public static synchronized Long get(@NonNull String key, @Nullable Long defaultValue) {
         try {
             long value = defaultValue;
             value = preferences.getLong(key, defaultValue);
@@ -184,7 +194,8 @@ public class Preferences {
      * @param value
      * @return true if the new value was successfully written to persistent storage.
      */
-    public static synchronized Boolean set(@NonNull String key, Long value) {
+    @NonNull
+    public static synchronized Boolean set(@NonNull String key, @NonNull Long value) {
         try {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putLong(key, value);
@@ -201,7 +212,8 @@ public class Preferences {
      * @param defaultValue A default to return if the value could not be read.
      * @return The value from shared preferences, or the provided default.
      */
-    public static synchronized Integer get(@NonNull String key, Integer defaultValue) {
+    @NonNull
+    public static synchronized Integer get(@NonNull String key, @Nullable Integer defaultValue) {
         try {
             int value = defaultValue;
             value = preferences.getInt(key, defaultValue);
@@ -218,7 +230,8 @@ public class Preferences {
      * @param value
      * @return true if the new value was successfully written to persistent storage.
      */
-    public static synchronized Boolean set(@NonNull String key, Integer value) {
+    @NonNull
+    public static synchronized Boolean set(@NonNull String key, @NonNull Integer value) {
         try {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putInt(key, value);
@@ -235,7 +248,8 @@ public class Preferences {
      * @param defaultValue A default to return if the value could not be read.
      * @return The value from shared preferences, or the provided default.
      */
-    public static synchronized Boolean get(@NonNull String key, boolean defaultValue) {
+    @NonNull
+    public static synchronized Boolean get(@NonNull String key, @Nullable boolean defaultValue) {
         try {
             boolean value = defaultValue;
             value = preferences.getBoolean(key, defaultValue);
@@ -252,7 +266,8 @@ public class Preferences {
      * @param value
      * @return true if the new value was successfully written to persistent storage.
      */
-    public static synchronized Boolean set(@NonNull String key, Boolean value) {
+    @NonNull
+    public static synchronized Boolean set(@NonNull String key, @NonNull Boolean value) {
         try {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean(key, value);
@@ -265,6 +280,7 @@ public class Preferences {
     /**
      * Helper method to clear all {@link SharedPreferences}.
      */
+    @NonNull
     public static synchronized Boolean clear() {
         try {
             SharedPreferences.Editor editor = preferences.edit();
@@ -277,7 +293,8 @@ public class Preferences {
     /**
      * Helper method to remove {@link SharedPreferences}.
      */
-    public static synchronized Boolean remove(String... keys) {
+    @NonNull
+    public static synchronized Boolean remove(@NonNull String... keys) {
         try {
             SharedPreferences.Editor editor = preferences.edit();
             for (String key : keys) {
@@ -292,6 +309,7 @@ public class Preferences {
     /**
      * Helper method to clear {@link SharedPreferences}.
      */
+    @NonNull
     public static synchronized Boolean contains(@NonNull String key) {
         try {
             boolean contains = preferences.contains(key);
@@ -304,6 +322,7 @@ public class Preferences {
     /**
      * Helper method to get all {@link SharedPreferences}.
      */
+    @Nullable
     public static synchronized Map<String, ?> getAll() {
         try {
             Map<String, ?> all = preferences.getAll();
@@ -320,7 +339,8 @@ public class Preferences {
      * @param value
      * @return true if the new value was successfully written to persistent storage.
      */
-    public static synchronized <T> Boolean set(@NonNull String key, T value) {
+    @NonNull
+    public static synchronized <T> Boolean set(@NonNull String key, @NonNull T value) {
         try {
             String json = gson.toJson(value);
             SharedPreferences.Editor editor = preferences.edit();
@@ -338,7 +358,8 @@ public class Preferences {
      * @param type
      * @return The value from shared preferences, or the provided default.
      */
-    public static synchronized <T> T get(@NonNull String key, Class<T> type) {
+    @Nullable
+    public static synchronized <T> T get(@NonNull String key, @NonNull Class<T> type) {
         try {
             String json = preferences.getString(key, "");
             T value = gson.fromJson(json, type);
