@@ -54,10 +54,22 @@ public class Preferences {
      * Initialize and create new {@link Preferences} instance if not exists
      *
      * @param context {@link Context}
+     * @since 0.4.0
      */
     public static synchronized void create(@NonNull Context context) {
         if (preferences == null) {
             preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        }
+    }
+
+    /**
+     * Dispose existing {@link Preferences} instance and release resources
+     *
+     * @since 0.4.0
+     */
+    public static synchronized void dispose() {
+        if (preferences != null) {
+            preferences = null;
         }
     }
 
