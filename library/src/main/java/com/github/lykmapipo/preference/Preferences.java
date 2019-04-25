@@ -47,9 +47,7 @@ public class Preferences {
      */
     @Deprecated
     public static synchronized void initialize(@NonNull Context context) {
-        if (preferences == null) {
-            preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        }
+        create(context);
     }
 
     /**
