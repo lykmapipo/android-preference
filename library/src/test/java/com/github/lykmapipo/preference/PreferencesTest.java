@@ -2,6 +2,8 @@ package com.github.lykmapipo.preference;
 
 import android.content.Context;
 
+import androidx.test.core.app.ApplicationProvider;
+
 import com.google.gson.annotations.Expose;
 
 import org.junit.After;
@@ -13,8 +15,6 @@ import org.robolectric.RobolectricTestRunner;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import androidx.test.core.app.ApplicationProvider;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -31,7 +31,7 @@ public class PreferencesTest {
     @Before
     public void setup() {
         Context context = ApplicationProvider.getApplicationContext();
-        Preferences.initialize(context);
+        Preferences.create(context);
     }
 
     @Test

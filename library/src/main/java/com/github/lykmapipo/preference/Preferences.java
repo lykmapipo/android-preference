@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -12,9 +15,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 /**
  * Preferences
@@ -39,7 +39,25 @@ public class Preferences {
     private Preferences() {
     }
 
+    /**
+     * Initialize and create new {@link Preferences} instance if not exists. This method is
+     * deprecated, consider using create of {@link Preferences}
+     *
+     * @param context {@link Context}
+     */
+    @Deprecated
     public static synchronized void initialize(@NonNull Context context) {
+        if (preferences == null) {
+            preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        }
+    }
+
+    /**
+     * Initialize and create new {@link Preferences} instance if not exists
+     *
+     * @param context {@link Context}
+     */
+    public static synchronized void create(@NonNull Context context) {
         if (preferences == null) {
             preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         }
