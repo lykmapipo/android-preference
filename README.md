@@ -18,7 +18,7 @@ add `android-preference` dependency into your project
 
 ```gradle
 dependencies {
-    compile 'com.github.lykmapipo:android-preference:v0.3.0'
+    compile 'com.github.lykmapipo:android-preference:v0.4.0'
 }
 ```
 
@@ -35,7 +35,7 @@ public class SampleApp extends Application{
         super.onCreate();
 
         //initialize preference
-        Preferences.initialize(getApplicationContext());
+        Preferences.create(getApplicationContext());
         
     }
 
