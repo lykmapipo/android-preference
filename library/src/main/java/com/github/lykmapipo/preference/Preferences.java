@@ -24,9 +24,20 @@ import java.util.Set;
  * @since 0.1.0
  */
 public class Preferences {
-
+    /**
+     * Valid instance of {@link SharedPreferences} created once during
+     * {@link Preferences} initialization.
+     *
+     * @since 0.1.0
+     */
     private static SharedPreferences preferences;
 
+    /**
+     * Valid instance of {@link Gson} used to convert values for storage
+     * in {@link SharedPreferences}
+     *
+     * @since 0.1.0
+     */
     private static Gson gson = new GsonBuilder()
             .excludeFieldsWithoutExposeAnnotation()
             .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
