@@ -17,10 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Preferences
- * <p>
  * A pack of helpful getter and setter methods for read and write to {@link SharedPreferences}.
- * </p>
  *
  * @author lally elias <a href="mailto:lallyelias87@gmail.com">lallyelias87@gmail.com</a>
  * @version 0.1.0
