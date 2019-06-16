@@ -18,7 +18,7 @@ add `android-preference` dependency into your project
 
 ```gradle
 dependencies {
-    compile 'com.github.lykmapipo:android-preference:v0.4.0'
+    compile 'com.github.lykmapipo:android-preference:v0.4.1'
 }
 ```
 
