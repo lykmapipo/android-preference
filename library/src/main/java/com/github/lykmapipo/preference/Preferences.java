@@ -4,8 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import com.github.lykmapipo.common.Common;
 import com.github.lykmapipo.common.provider.Provider;
@@ -376,6 +380,189 @@ public class Preferences {
             return value;
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    /**
+     * Listen for {@link String} preference value changes
+     *
+     * @param owner        The LifecycleOwner which controls the observer
+     * @param key          preference key
+     * @param defaultValue default value
+     * @param observer     The observer that will receive the network status
+     * @since 0.1.0
+     */
+    @MainThread
+    public static synchronized void observe(
+            @NonNull LifecycleOwner owner, @NonNull String key,
+            @NonNull String defaultValue, @NonNull Observer<String> observer) {
+        PreferenceLiveData<String> value = new PreferenceLiveData<String>(key, defaultValue) {
+            @NonNull
+            @Override
+            String getValue(@NonNull String key, @NonNull String defaultValue) {
+                return get(key, defaultValue);
+            }
+        };
+        value.observe(owner, observer);
+    }
+
+    /**
+     * Listen for {@link Set} of {@link String} preference value changes
+     *
+     * @param owner        The LifecycleOwner which controls the observer
+     * @param key          preference key
+     * @param defaultValue default value
+     * @param observer     The observer that will receive the network status
+     * @since 0.1.0
+     */
+    @MainThread
+    public static synchronized void observe(
+            @NonNull LifecycleOwner owner, @NonNull String key,
+            @NonNull Set<String> defaultValue, @NonNull Observer<Set<String>> observer) {
+        PreferenceLiveData<Set<String>> value = new PreferenceLiveData<Set<String>>(key, defaultValue) {
+            @NonNull
+            @Override
+            Set<String> getValue(@NonNull String key, @NonNull Set<String> defaultValue) {
+                return get(key, defaultValue);
+            }
+        };
+        value.observe(owner, observer);
+    }
+
+    /**
+     * Listen for {@link Integer} preference value changes
+     *
+     * @param owner        The LifecycleOwner which controls the observer
+     * @param key          preference key
+     * @param defaultValue default value
+     * @param observer     The observer that will receive the network status
+     * @since 0.1.0
+     */
+    @MainThread
+    public static synchronized void observe(
+            @NonNull LifecycleOwner owner, @NonNull String key,
+            @NonNull Integer defaultValue, @NonNull Observer<Integer> observer) {
+        PreferenceLiveData<Integer> value = new PreferenceLiveData<Integer>(key, defaultValue) {
+            @NonNull
+            @Override
+            Integer getValue(@NonNull String key, @NonNull Integer defaultValue) {
+                return get(key, defaultValue);
+            }
+        };
+        value.observe(owner, observer);
+    }
+
+    /**
+     * Listen for {@link Float} preference value changes
+     *
+     * @param owner        The LifecycleOwner which controls the observer
+     * @param key          preference key
+     * @param defaultValue default value
+     * @param observer     The observer that will receive the network status
+     * @since 0.1.0
+     */
+    @MainThread
+    public static synchronized void observe(
+            @NonNull LifecycleOwner owner, @NonNull String key,
+            @NonNull Float defaultValue, @NonNull Observer<Float> observer) {
+        PreferenceLiveData<Float> value = new PreferenceLiveData<Float>(key, defaultValue) {
+            @NonNull
+            @Override
+            Float getValue(@NonNull String key, @NonNull Float defaultValue) {
+                return get(key, defaultValue);
+            }
+        };
+        value.observe(owner, observer);
+    }
+
+    /**
+     * Listen for {@link Long} preference value changes
+     *
+     * @param owner        The LifecycleOwner which controls the observer
+     * @param key          preference key
+     * @param defaultValue default value
+     * @param observer     The observer that will receive the network status
+     * @since 0.1.0
+     */
+    @MainThread
+    public static synchronized void observe(
+            @NonNull LifecycleOwner owner, @NonNull String key,
+            @NonNull Long defaultValue, @NonNull Observer<Long> observer) {
+        PreferenceLiveData<Long> value = new PreferenceLiveData<Long>(key, defaultValue) {
+            @NonNull
+            @Override
+            Long getValue(@NonNull String key, @NonNull Long defaultValue) {
+                return get(key, defaultValue);
+            }
+        };
+        value.observe(owner, observer);
+    }
+
+    /**
+     * Listen for {@link Boolean} preference value changes
+     *
+     * @param owner        The LifecycleOwner which controls the observer
+     * @param key          preference key
+     * @param defaultValue default value
+     * @param observer     The observer that will receive the network status
+     * @since 0.1.0
+     */
+    @MainThread
+    public static synchronized void observe(
+            @NonNull LifecycleOwner owner, @NonNull String key,
+            @NonNull Boolean defaultValue, @NonNull Observer<Boolean> observer) {
+        PreferenceLiveData<Boolean> value = new PreferenceLiveData<Boolean>(key, defaultValue) {
+            @NonNull
+            @Override
+            Boolean getValue(@NonNull String key, @NonNull Boolean defaultValue) {
+                return get(key, defaultValue);
+            }
+        };
+        value.observe(owner, observer);
+    }
+
+    /**
+     * A {@see LiveData} class which wraps {@link SharedPreferences.OnSharedPreferenceChangeListener}
+     *
+     * @since 0.1.0
+     */
+    private abstract static class PreferenceLiveData<T> extends LiveData<T> {
+        // refs
+        private String key;
+        private T defaultValue;
+        private SharedPreferences.OnSharedPreferenceChangeListener listener =
+                new SharedPreferences.OnSharedPreferenceChangeListener() {
+                    @Override
+                    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                        if (PreferenceLiveData.this.key.equals(key)) {
+                            postValue(getValue(key, defaultValue));
+                        }
+                    }
+                };
+
+        public PreferenceLiveData(@NonNull String key, @NonNull T defaultValue) {
+            this.key = key;
+            this.defaultValue = defaultValue;
+        }
+
+        @NonNull
+        abstract T getValue(@NonNull String key, @NonNull T defaultValue);
+
+        @Override
+        protected void onActive() {
+            super.onActive();
+            postValue(getValue(key, defaultValue));
+            if (preferences != null) {
+                preferences.registerOnSharedPreferenceChangeListener(listener);
+            }
+        }
+
+        @Override
+        protected void onInactive() {
+            super.onInactive();
+            if (preferences != null) {
+                preferences.unregisterOnSharedPreferenceChangeListener(listener);
+            }
         }
     }
 
