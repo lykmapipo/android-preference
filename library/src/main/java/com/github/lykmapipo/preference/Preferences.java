@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.github.lykmapipo.common.Common;
+import com.github.lykmapipo.common.provider.Provider;
 
 import java.util.Map;
 import java.util.Set;
@@ -15,8 +16,8 @@ import java.util.Set;
 /**
  * A pack of helpful getter and setter methods for read and write to {@link SharedPreferences}.
  *
- * @author lally elias <a href="mailto:lallyelias87@gmail.com">lallyelias87@gmail.com</a>
- * @version 0.1.0
+ * @author lally elias <lallyelias87@gmail.com>
+ * @version 0.5.0
  * @since 0.1.0
  */
 public class Preferences {
@@ -32,25 +33,15 @@ public class Preferences {
     }
 
     /**
-     * Initialize and create new {@link Preferences} instance if not exists. This method is
-     * deprecated, consider using create of {@link Preferences}
-     *
-     * @param context {@link Context}
-     */
-    @Deprecated
-    public static synchronized void initialize(@NonNull Context context) {
-        create(context);
-    }
-
-    /**
      * Initialize and create new {@link Preferences} instance if not exists
      *
-     * @param context {@link Context}
-     * @since 0.4.0
+     * @param provider {@link Context}
+     * @since 0.5.0
      */
-    public static synchronized void create(@NonNull Context context) {
+    public static synchronized void of(@NonNull Provider provider) {
         if (preferences == null) {
-            preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+            Context context = provider.getApplicationContext();
+            preferences = PreferenceManager.getDefaultSharedPreferences(context);
         }
     }
 

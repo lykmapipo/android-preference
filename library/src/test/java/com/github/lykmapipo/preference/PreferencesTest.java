@@ -2,8 +2,10 @@ package com.github.lykmapipo.preference;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.test.core.app.ApplicationProvider;
 
+import com.github.lykmapipo.common.provider.Provider;
 import com.google.gson.annotations.Expose;
 
 import org.junit.After;
@@ -30,8 +32,13 @@ public class PreferencesTest {
 
     @Before
     public void setup() {
-        Context context = ApplicationProvider.getApplicationContext();
-        Preferences.create(context);
+        Preferences.of(new Provider() {
+            @NonNull
+            @Override
+            public Context getApplicationContext() {
+                return ApplicationProvider.getApplicationContext();
+            }
+        });
     }
 
     @Test
