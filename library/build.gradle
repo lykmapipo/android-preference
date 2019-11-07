@@ -22,8 +22,14 @@ android {
 }
 
 dependencies {
+    // local dependencies
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // androidx dependencies
     implementation "androidx.annotation:annotation:${ANDROIDX_ANNOTATION_VERSION}"
+
+    // misc dependencies
+    api "com.github.lykmapipo:android-common:${ANDROID_COMMON_VERSION}"
     implementation "com.google.code.gson:gson:${GSON_VERSION}"
 
     //test dependencies
