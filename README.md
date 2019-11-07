@@ -18,7 +18,7 @@ add `android-preference` dependency into your project
 
 ```gradle
 dependencies {
-    implementation 'com.github.lykmapipo:android-preference:v0.4.1'
+    implementation 'com.github.lykmapipo:android-preference:v0.5.0'
 }
 ```
 
@@ -27,18 +27,27 @@ dependencies {
 Initialize `android-preference`
 
 ```java
-public class SampleApp extends Application{
-
+public class SampleApp extends Application {
     @Override
     public void onCreate() {
-        
         super.onCreate();
 
-        //initialize preference
-        Preferences.create(getApplicationContext());
-        
-    }
+        // initialize {@link Preferences} internals
+        Preferences.of(new Provider() {
+            @NonNull
+            @Override
+            public Context getApplicationContext() {
+                return SampleApp.this;
+            }
 
+            @NonNull
+            @Override
+            public Boolean isDebug() {
+                return BuildConfig.DEBUG;
+            }
+        });
+
+    }
 }
 ```
 
@@ -54,9 +63,11 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //obtain saved preference
-        String account = Preferences.get(KEY, "N/A");
+        
+        // observe changes
+        Preferences.observe(this, KEY, 'N/A', value -> {
+            toast(value);
+        });
 
     }
 }
