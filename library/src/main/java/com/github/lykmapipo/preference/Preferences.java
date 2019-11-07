@@ -397,9 +397,8 @@ public class Preferences {
             @NonNull LifecycleOwner owner, @NonNull String key,
             @NonNull String defaultValue, @NonNull Observer<String> observer) {
         PreferenceLiveData<String> value = new PreferenceLiveData<String>(key, defaultValue) {
-            @NonNull
             @Override
-            String getValue(@NonNull String key, @NonNull String defaultValue) {
+            String getValue(@NonNull String key, String defaultValue) {
                 return get(key, defaultValue);
             }
         };
@@ -420,9 +419,8 @@ public class Preferences {
             @NonNull LifecycleOwner owner, @NonNull String key,
             @NonNull Set<String> defaultValue, @NonNull Observer<Set<String>> observer) {
         PreferenceLiveData<Set<String>> value = new PreferenceLiveData<Set<String>>(key, defaultValue) {
-            @NonNull
             @Override
-            Set<String> getValue(@NonNull String key, @NonNull Set<String> defaultValue) {
+            Set<String> getValue(@NonNull String key, Set<String> defaultValue) {
                 return get(key, defaultValue);
             }
         };
@@ -443,9 +441,8 @@ public class Preferences {
             @NonNull LifecycleOwner owner, @NonNull String key,
             @NonNull Integer defaultValue, @NonNull Observer<Integer> observer) {
         PreferenceLiveData<Integer> value = new PreferenceLiveData<Integer>(key, defaultValue) {
-            @NonNull
             @Override
-            Integer getValue(@NonNull String key, @NonNull Integer defaultValue) {
+            Integer getValue(@NonNull String key, Integer defaultValue) {
                 return get(key, defaultValue);
             }
         };
@@ -466,9 +463,8 @@ public class Preferences {
             @NonNull LifecycleOwner owner, @NonNull String key,
             @NonNull Float defaultValue, @NonNull Observer<Float> observer) {
         PreferenceLiveData<Float> value = new PreferenceLiveData<Float>(key, defaultValue) {
-            @NonNull
             @Override
-            Float getValue(@NonNull String key, @NonNull Float defaultValue) {
+            Float getValue(@NonNull String key, Float defaultValue) {
                 return get(key, defaultValue);
             }
         };
@@ -489,9 +485,8 @@ public class Preferences {
             @NonNull LifecycleOwner owner, @NonNull String key,
             @NonNull Long defaultValue, @NonNull Observer<Long> observer) {
         PreferenceLiveData<Long> value = new PreferenceLiveData<Long>(key, defaultValue) {
-            @NonNull
             @Override
-            Long getValue(@NonNull String key, @NonNull Long defaultValue) {
+            Long getValue(@NonNull String key, Long defaultValue) {
                 return get(key, defaultValue);
             }
         };
@@ -512,10 +507,30 @@ public class Preferences {
             @NonNull LifecycleOwner owner, @NonNull String key,
             @NonNull Boolean defaultValue, @NonNull Observer<Boolean> observer) {
         PreferenceLiveData<Boolean> value = new PreferenceLiveData<Boolean>(key, defaultValue) {
-            @NonNull
             @Override
-            Boolean getValue(@NonNull String key, @NonNull Boolean defaultValue) {
+            Boolean getValue(@NonNull String key, Boolean defaultValue) {
                 return get(key, defaultValue);
+            }
+        };
+        value.observe(owner, observer);
+    }
+
+    /**
+     * Listen for {@link Boolean} preference value changes
+     *
+     * @param owner    The LifecycleOwner which controls the observer
+     * @param key      preference key
+     * @param observer The observer that will receive the network status
+     * @since 0.1.0
+     */
+    @MainThread
+    public static synchronized <T> void observe(
+            @NonNull LifecycleOwner owner, @NonNull String key,
+            @NonNull final Class<T> type, @NonNull Observer<T> observer) {
+        PreferenceLiveData<T> value = new PreferenceLiveData<T>(key, null) {
+            @Override
+            T getValue(@NonNull String key, T defaultValue) {
+                return get(key, type);
             }
         };
         value.observe(owner, observer);
@@ -540,13 +555,12 @@ public class Preferences {
                     }
                 };
 
-        public PreferenceLiveData(@NonNull String key, @NonNull T defaultValue) {
+        public PreferenceLiveData(@NonNull String key, T defaultValue) {
             this.key = key;
             this.defaultValue = defaultValue;
         }
 
-        @NonNull
-        abstract T getValue(@NonNull String key, @NonNull T defaultValue);
+        abstract T getValue(@NonNull String key, T defaultValue);
 
         @Override
         protected void onActive() {
