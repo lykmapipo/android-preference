@@ -7,12 +7,8 @@ import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.github.lykmapipo.common.Common;
 
-import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,18 +27,6 @@ public class Preferences {
      * @since 0.1.0
      */
     private static SharedPreferences preferences;
-
-    /**
-     * Valid instance of {@link Gson} used to convert values for storage
-     * in {@link SharedPreferences}
-     *
-     * @since 0.1.0
-     */
-    private static Gson gson = new GsonBuilder()
-            .excludeFieldsWithoutExposeAnnotation()
-            .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
-            .serializeNulls()
-            .create();
 
     private Preferences() {
     }
@@ -88,7 +72,7 @@ public class Preferences {
      * @return The value from shared preferences, or null if the value could not be read.
      */
     @NonNull
-    public static synchronized String get(@NonNull String key, @Nullable String defaultValue) {
+    public static synchronized String get(@NonNull String key, @NonNull String defaultValue) {
         try {
             String value = defaultValue;
             value = preferences.getString(key, defaultValue);
@@ -123,7 +107,7 @@ public class Preferences {
      * @return The value from shared preferences, or null if the value could not be read.
      */
     @NonNull
-    public static synchronized Set<String> get(@NonNull String key, @Nullable Set<String> defaultValue) {
+    public static synchronized Set<String> get(@NonNull String key, @NonNull Set<String> defaultValue) {
         try {
             Set<String> value = defaultValue;
             value = preferences.getStringSet(key, defaultValue);
@@ -161,8 +145,7 @@ public class Preferences {
     @NonNull
     public static synchronized Boolean set(@NonNull String key, @NonNull String... values) {
         try {
-            HashSet<String> _set = new HashSet<String>();
-            _set.addAll(Arrays.asList(values));
+            Set<String> _set = Common.Value.setOf(values);
             return set(key, _set);
         } catch (Exception e) {
             return false;
@@ -177,7 +160,7 @@ public class Preferences {
      * @return The value from shared preferences, or the provided default.
      */
     @NonNull
-    public static synchronized Float get(@NonNull String key, @Nullable Float defaultValue) {
+    public static synchronized Float get(@NonNull String key, @NonNull Float defaultValue) {
         try {
             float value = defaultValue;
             value = preferences.getFloat(key, defaultValue);
@@ -213,7 +196,7 @@ public class Preferences {
      * @return The value from shared preferences, or the provided default.
      */
     @NonNull
-    public static synchronized Long get(@NonNull String key, @Nullable Long defaultValue) {
+    public static synchronized Long get(@NonNull String key, @NonNull Long defaultValue) {
         try {
             long value = defaultValue;
             value = preferences.getLong(key, defaultValue);
@@ -249,7 +232,7 @@ public class Preferences {
      * @return The value from shared preferences, or the provided default.
      */
     @NonNull
-    public static synchronized Integer get(@NonNull String key, @Nullable Integer defaultValue) {
+    public static synchronized Integer get(@NonNull String key, @NonNull Integer defaultValue) {
         try {
             int value = defaultValue;
             value = preferences.getInt(key, defaultValue);
@@ -285,7 +268,7 @@ public class Preferences {
      * @return The value from shared preferences, or the provided default.
      */
     @NonNull
-    public static synchronized Boolean get(@NonNull String key, @Nullable boolean defaultValue) {
+    public static synchronized Boolean get(@NonNull String key, @NonNull Boolean defaultValue) {
         try {
             boolean value = defaultValue;
             value = preferences.getBoolean(key, defaultValue);
@@ -378,7 +361,7 @@ public class Preferences {
     @NonNull
     public static synchronized <T> Boolean set(@NonNull String key, @NonNull T value) {
         try {
-            String json = gson.toJson(value);
+            String json = Common.Value.toJson(value);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString(key, json);
             return editor.commit();
@@ -398,7 +381,7 @@ public class Preferences {
     public static synchronized <T> T get(@NonNull String key, @NonNull Class<T> type) {
         try {
             String json = preferences.getString(key, "");
-            T value = gson.fromJson(json, type);
+            T value = Common.Value.fromJson(json, type);
             return value;
         } catch (Exception e) {
             return null;
